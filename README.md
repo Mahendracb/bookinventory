@@ -1,0 +1,3 @@
+# Bookstore Web Application
+
+This web application is designed to provide users with an easy and efficient way to browse, search, and purchase books online. It features a user-friendly interface, secure authentication, and a comprehensive catalog of books. Users can view detailed information about each book, add items to their cart, and complete purchases seamlessly. The application also includes admin functionality for managing inventory and orders.
