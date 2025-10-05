@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 36px 32px 28px 32px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 28px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px 12px;
+            border: 1px solid #cfd8dc;
+            border-radius: 6px;
+            font-size: 1em;
+            background: #f9fafb;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+        }
+        .submit-btn {
+            background: #007bff;
+            color: #fff;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover {
+            background: #0056b3;
+        }
+        .back-btn {
+            background: #f0f4fa;
+            color: #007bff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: #e6f0fa;
+        }
+        .errorlist {
+            color: #d32f2f;
+            margin: 0 0 8px 0;
+            padding: 0;
+            list-style: none;
+            font-size: 0.98em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Book</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <div>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Save</button>
+                <a href="{% url 'book_list' %}" class="back-btn">← Back to List</a>
+            </div>
+        </form>
+        
+    </div>
+</body>
+</html>

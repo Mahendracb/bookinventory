@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            /* Book-themed background image */
+            background: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+        /* Overlay for readability */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            
+            z-index: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 950px;
+            margin: 50px auto;
+            background: rgba(223, 231, 236, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            padding: 40px 36px 32px 36px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 36px;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #e0e0e0;
+        }
+        .add-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #007bff 60%, #00c6ff 100%);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 28px;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+            font-size: 1.1em;
+        }
+        .add-btn:hover {
+            background: linear-gradient(90deg, #0056b3 60%, #007bff 100%);
+            box-shadow: 0 4px 16px rgba(0,123,255,0.18);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        th, td {
+            padding: 16px 14px;
+            text-align: left;
+        }
+        th {
+            background: #e3eafc;
+            color: #2d3a4b;
+            font-size: 1.08em;
+            letter-spacing: 1px;
+        }
+        tr:nth-child(even) {
+            background: #f7fafd;
+        }
+        tr:hover {
+            background: #e6f0fa;
+            transition: background 0.2s;
+        }
+        .no-books {
+            text-align: center;
+            color: #888;
+            margin-top: 48px;
+            font-size: 1.25em;
+            font-weight: 500;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 18px 4vw;
+            }
+            table, th, td {
+                font-size: 0.98em;
+            }
+            .add-btn {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Inventory</h1>
+        <form method="get" action="{% url 'book_list' %}" style="margin-bottom: 24px; text-align: right;">
+    <input type="text" name="q" placeholder="Search by title..." value="{{ query|default:'' }}" style="padding:8px 14px; border-radius:6px; border:1px solid #bbb; font-size:1em;">
+    <button type="submit" class="add-btn" style="padding:8px 18px; font-size:1em;">Search</button>
+</form>
+       {% if user.is_staff %}
+    <a href="{% url 'add_book' %}" class="add-btn">+ Add Book</a>
+{% endif %}
+        {% if books %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.isbn_number }}</td>
+                    <td>₹{{ book.price }}</td>
+                    <td>{{ book.stock_quantity }}</td>
+                    <!-- ...existing code... -->
+<td>
+    {% if user.is_staff %}
+        <a href="{% url 'update_book' book.id %}" class="add-btn" style="padding:7px 18px;font-size:0.95em;">Update</a>
+        <form action="{% url 'delete_book' book.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="add-btn" style="padding:7px 18px;font-size:0.95em;background:#dc3545;">Delete</button>
+        </form>
+    {% endif %}
+</td>
+<!-- ...existing code... -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- ...existing code... -->
+{% else %}
+    {% if query %}
+        <div class="no-books">No books found for "{{ query }}".</div>
+    {% else %}
+        <div class="no-books">No books available. Click "Add Book" to get started!</div>
+    {% endif %}
+{% endif %}
+<!-- ...existing code... -->
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="back-link" style="background:none;border:none;color:#6366f1;cursor:pointer;">Logout</button>
+    
+</form>
+
+    </div>
+    
+</body>
+</html>

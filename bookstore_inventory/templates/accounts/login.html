@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #c7d2fe 100%);
+            min-height: 100vh;
+        }
+        .login-container {
+            max-width: 420px;
+            margin: 70px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.13);
+            padding: 36px 28px;
+        }
+        h2 {
+            text-align: center;
+            color: #312e81;
+            margin-bottom: 28px;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        label {
+            font-weight: 600;
+            color: #2563eb;
+        }
+        input {
+            padding: 11px 10px;
+            border: 1.5px solid #6366f1;
+            border-radius: 7px;
+            font-size: 1.05rem;
+        }
+        button[type="submit"] {
+            background-color: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <a href="{% url 'signup' %}" class="signup-link">Don't have an account? Signup</a>
+    </div>
+</body>
+</html>
